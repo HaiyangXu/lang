@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    <meta charset="utf-8">
+    <title>CS164: Language Popularity</title>
+    <script src="d3.min.js"></script>
+    <script src="underscore-min.js"></script>
+    <script src="lang.js"></script>
+    <link rel="stylesheet" href="display.css"></link>
+  </head>
+  
+  <body>
+      
+      <div>
+          <div id="vis"> </div>
+          <div><select id="paradigmSelect" onchange="show(this)"></select></div>  
+      </div>
+
+  
+    <script>
+      var xmlhttp=new XMLHttpRequest();
+      xmlhttp.open("GET","data.json",false);
+      xmlhttp.send();
+      var jsonstr=xmlhttp.responseText;
+      var langdata = JSON.parse(jsonstr);
+      //var select=d3.select("#paradigmSelect");
+      //select.on("onchange",function (select) {
+      //    show(select);
+      //});
+      addSelects(langdata);
+      init();
+      draw(langdata);
+      function show(select) {
+          console.log(select);
+          var options= select.options;
+          var index=select.selectedIndex;
+          var paradgm=options[index].text;
+          draw(_.filter(langdata, function (lang) {
+              return _.contains(lang.paradigms,paradgm);
+          }));
+          
+      }
+    </script>
+  </body>
+
+</html>
